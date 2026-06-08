@@ -14,6 +14,7 @@ namespace poligon392026B
     {
         Tacka[] temena;
         int br_temena;
+        Poligon radni;
 
         public Form1()
         {
@@ -33,11 +34,31 @@ namespace poligon392026B
             Tacka nova = new Tacka(x, y);
             temena[br_temena] = nova;
             listBox1.Items.Add(x.ToString()+" "+y.ToString());
+            br_temena++;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            radni = new Poligon(br_temena, temena);
+        }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            radni.snimi();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            {
+                if (radni.konveksan()) label3.Text = "Konveksan";
+                else label3.Text = "Nije Konveksan";
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (radni.prost()) label3.Text = "Prost";
+            else label3.Text = "Nije prost";
         }
     }
 }
