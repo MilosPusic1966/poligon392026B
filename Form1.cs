@@ -15,16 +15,19 @@ namespace poligon392026B
         Tacka[] temena;
         int br_temena;
         Poligon radni;
+        bool fleg_Crtaj;
 
         public Form1()
         {
             InitializeComponent();
+            panel1.Paint += panel1_Paint;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             temena = new Tacka[20];
             br_temena = 0;
+            fleg_Crtaj = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -59,6 +62,46 @@ namespace poligon392026B
         {
             if (radni.prost()) label3.Text = "Prost";
             else label3.Text = "Nije prost";
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            fleg_Crtaj = true;
+            panel1.Invalidate();
+            panel1.Refresh();
+        }
+
+        void Crtaj(Graphics dr, Tacka t)
+        {
+                int panelHeight = panel1.ClientSize.Height;
+                int panelWidth = panel1.ClientSize.Width;
+                // x - osa
+                int pocetak = panelWidth / 10;
+                int kraj = panelWidth - pocetak;
+                int visina = panelHeight - panelHeight / 10;
+
+                Pen linija = new Pen(Color.Black, 2);
+                dr.DrawLine(linija, pocetak, visina, kraj, visina);
+
+                int x = panelWidth / 2 + (int)t.x * 20; // Shift x to center
+                int y = panelHeight / 2 - (int)t.y * 30; // Invert y and shift to center
+
+                using (var cetka = new SolidBrush(Color.Red))
+                {
+                    dr.FillEllipse(cetka, x, y, 8, 8);
+                }
+            
+        }
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            if (fleg_Crtaj)
+            {
+                for (int i = 0; i < br_temena; i++)
+                {
+                    Tacka t = temena[i];
+                    Crtaj(e.Graphics, t);
+                }
+            }
         }
     }
 }
